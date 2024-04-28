@@ -1,3 +1,19 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["react"],
+  "extends": [
+    "next/core-web-vitals",
+    "next",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "ignorePatterns": ["node_modules/"],
+  "rules": {
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-curly-brace-presence": [
+      "warn",
+      { "props": "always", "children": "never" }
+    ],
+    "no-useless-catch": "off"
+  }
 }
