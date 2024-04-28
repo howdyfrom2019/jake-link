@@ -14,6 +14,7 @@
       "warn",
       { "props": "always", "children": "never" }
     ],
-    "no-useless-catch": "off"
+    "no-useless-catch": "off",
+    "no-unused-vars": "warn"
   }
 }
