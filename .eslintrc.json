@@ -15,6 +15,8 @@
       { "props": "always", "children": "never" }
     ],
     "no-useless-catch": "off",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "no-undef": "off",
+    "no-redeclare": "warn"
   }
 }

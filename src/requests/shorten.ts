@@ -1,0 +1,37 @@
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+
+export const encryptComplexUrl = async (body: Shorten.CreatePayload) => {
+  try {
+    const { data } = await axios.post<Shorten.Create>(
+      '/api/shorten-url/encode',
+      body,
+    );
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw {
+        status: error.response?.status,
+        error: error.response?.data.error,
+      };
+    }
+
+    throw error;
+  }
+};
+
+export const useEncodeShortenUrl = (
+  onSuccess?: (data: Shorten.Create) => void,
+  onError?: (error: NextError) => void,
+) => {
+  const { mutate, mutateAsync } = useMutation({
+    mutationFn: (body: Shorten.CreatePayload) => encryptComplexUrl(body),
+    onSuccess,
+    onError,
+  });
+
+  return {
+    mutate,
+    mutateAsync,
+  };
+};
