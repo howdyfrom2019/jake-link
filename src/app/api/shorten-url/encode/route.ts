@@ -1,3 +1,4 @@
+import { compressBase64, decompressBase64 } from '@/lib/util/textCompress';
 import crypto from 'crypto-js';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -14,15 +15,14 @@ export async function POST(request: NextRequest) {
     const { originalUrl } = payload;
     const utf8crypted = crypto.enc.Utf8.parse(originalUrl);
     const base64crypted = crypto.enc.Base64url.stringify(utf8crypted);
-    // const result = crypto.AES.encrypt(
-    //   base64crypted,
-    //   process.env.AES_KEY_PHRASE,
-    // );
-    // console.log(result);
-
+    console.log('original', base64crypted);
+    const compressed = compressBase64(base64crypted);
+    console.log('compressed:', compressed);
+    const decrypted = decompressBase64(compressed);
+    console.log('decompressed:', decrypted);
     return NextResponse.json(
       {
-        compressed: base64crypted,
+        compressed,
         original: originalUrl,
       },
       { status: 200 },
