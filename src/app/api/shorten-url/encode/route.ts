@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/config/dbConfig';
+import executeQuery from '@/lib/config/dbConfig';
 import crypto from 'crypto-js';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -16,14 +16,18 @@ export async function POST(request: NextRequest) {
     const utf8crypted = crypto.enc.Utf8.parse(originalUrl);
     const base64crypted = crypto.enc.Base64url.stringify(utf8crypted);
     const compressed = compressSha256(base64crypted);
-    const result = await prisma.shortenLink.create({
-      data: {
-        hash: compressed,
-        originalUrl,
-      },
-    });
-    return NextResponse.json(result, { status: 200 });
+    await executeQuery(
+      `INSERT INTO ShortenLink(hash, originalUrl) VALUES('${compressed}', '${originalUrl}')`,
+      '',
+    );
+    const result = (await executeQuery(
+      `SELECT * FROM ShortenLink WHERE hash='${compressed}'`,
+      '',
+    )) as Shorten.Create[];
+
+    return NextResponse.json(result[0], { status: 200 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
       { status: 500 },

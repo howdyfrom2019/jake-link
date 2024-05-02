@@ -31,7 +31,7 @@ const EncryptForm = () => {
   const { mutateAsync: encyrptUrl } = useEncodeShortenUrl(
     (data) => {
       navigator.clipboard
-        .writeText(`${window.location}/${data.hash}`)
+        .writeText(`${window.location}${data.hash}`)
         .then(() => {
           toast('링크가 복사되었습니다!');
         });

@@ -1,7 +1,9 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     NEXT_PUBLIC_ENVIRONMENT: 'dev' | 'prod';
-    DATABASE_URL: string;
-    AES_KEY_PHRASE: string;
+    DB_HOST: string;
+    DB_USER: string;
+    DB_PASSWORD: string;
+    DB_DATABASE: string;
   }
 }

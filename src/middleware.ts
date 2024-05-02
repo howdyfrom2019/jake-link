@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/config/dbConfig';
+import executeQuery from '@/lib/config/dbConfig';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
 
   if (hash) {
     const originalUrl = await getOriginalUrl(hash);
+    console.log(originalUrl);
     if (!originalUrl) return NextResponse.next();
     return NextResponse.redirect(originalUrl);
   }
@@ -21,11 +22,10 @@ export const config = {
 };
 
 async function getOriginalUrl(redirect: string) {
-  const result = await prisma.shortenLink.findFirst({
-    where: {
-      hash: redirect,
-    },
-  });
+  const result = (await executeQuery(
+    `SELECT originalUrl FROM ShortenLink WHERE hash='${redirect}'`,
+    '',
+  )) as Shorten.CreatePayload[] | null;
 
-  return result?.originalUrl ?? null;
+  return result?.[0].originalUrl ?? null;
 }
