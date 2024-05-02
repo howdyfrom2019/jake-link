@@ -4,13 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "env-cmd -f .env.development next dev",
-    "build": "prisma generate && env-cmd -f ${ENVFILE:-.env.production} next build",
+    "build": "env-cmd -f ${ENVFILE:-.env.production} next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky",
-    "db:pull": "prisma db pull && prisma generate",
-    "db:push": "prisma db push",
-    "db:format": "prisma format"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -20,7 +17,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
-    "@prisma/client": "^5.13.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
@@ -60,6 +56,7 @@
     "env-cmd": "^10.1.0",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.376.0",
+    "mysql2": "^3.9.7",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
     "react": "^18",
@@ -76,6 +73,7 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.3",
     "@types/crypto-js": "^4.2.2",
+    "@types/mysql": "^2.15.26",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

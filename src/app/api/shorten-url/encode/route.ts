@@ -1,4 +1,4 @@
-import { compressBase64, decompressBase64 } from '@/lib/util/textCompress';
+import { prisma } from '@/lib/config/dbConfig';
 import crypto from 'crypto-js';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -15,18 +15,14 @@ export async function POST(request: NextRequest) {
     const { originalUrl } = payload;
     const utf8crypted = crypto.enc.Utf8.parse(originalUrl);
     const base64crypted = crypto.enc.Base64url.stringify(utf8crypted);
-    console.log('original', base64crypted);
-    const compressed = compressBase64(base64crypted);
-    console.log('compressed:', compressed);
-    const decrypted = decompressBase64(compressed);
-    console.log('decompressed:', decrypted);
-    return NextResponse.json(
-      {
-        compressed,
-        original: originalUrl,
+    const compressed = compressSha256(base64crypted);
+    const result = await prisma.shortenLink.create({
+      data: {
+        hash: compressed,
+        originalUrl,
       },
-      { status: 200 },
-    );
+    });
+    return NextResponse.json(result, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: '서버 오류가 발생했습니다.' },
@@ -40,3 +36,14 @@ const isShortenUrlPayload = (
 ): payload is Shorten.CreatePayload => {
   return typeof payload.originalUrl === 'string';
 };
+
+export function compressSha256(originalUrl: string): string {
+  // 원본 URL과 사용자 ID를 결합하여 해시화
+  const hashInput = `${originalUrl}:${Math.floor(Date.now() / 1000)}`;
+  const hashObject = crypto.SHA256(hashInput);
+  const hashHex = hashObject.toString(crypto.enc.Hex);
+
+  // 생성된 해시 값을 축약 코드로 사용
+  const shortenedCode = hashHex.slice(0, 6);
+  return shortenedCode;
+}

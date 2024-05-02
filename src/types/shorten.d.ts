@@ -3,8 +3,11 @@ interface ShortenCreatePayload {
 }
 
 interface ShortenCreate {
-  compressed: string;
-  original: string;
+  id: number;
+  hash: string;
+  originalUrl: string;
+  created: string;
+  updated: string;
 }
 
 declare namespace Shorten {
