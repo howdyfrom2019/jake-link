@@ -7,6 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useEncodeShortenUrl } from '@/requests/shorten';
@@ -45,16 +46,24 @@ const EncryptForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className={"flex flex-col items-stretch gap-2 space-x-2"}
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
           name={'originalUrl'}
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>줄이고 싶은 URL</FormLabel>
+            <FormItem className={'flex flex-col items-start'}>
+              <FormLabel className={'w-fit text-start'}>URL</FormLabel>
               <FormControl>
-                <Input placeholder={'url'} {...field} />
+                <Input
+                  type={'url'}
+                  placeholder={'줄이고 싶은 URL을 입력해주세요'}
+                  {...field}
+                />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

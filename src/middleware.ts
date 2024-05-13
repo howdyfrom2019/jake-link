@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/r/:redirect*'],
+  matcher: ['/rw/:redirect*'],
 };
 
 async function getOriginalUrl(redirect: string) {
