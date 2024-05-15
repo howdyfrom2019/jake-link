@@ -40,7 +40,7 @@ const isShortenUrlPayload = (
   return typeof payload.originalUrl === 'string';
 };
 
-export function compressSha256(originalUrl: string): string {
+function compressSha256(originalUrl: string): string {
   // 원본 URL과 사용자 ID를 결합하여 해시화
   const hashInput = `${originalUrl}:${Math.floor(Date.now() / 1000)}`;
   const hashObject = crypto.SHA256(hashInput);
