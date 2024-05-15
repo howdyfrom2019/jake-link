@@ -19,6 +19,6 @@
     "no-undef": "off",
     "no-redeclare": "warn",
     "react/no-unescaped-entities": "off",
-    "react/no-unknown-property": ["error", { "ignore": ["jsx"] }]
+    "@next/next/no-page-custom-font": "off"
   }
 }
