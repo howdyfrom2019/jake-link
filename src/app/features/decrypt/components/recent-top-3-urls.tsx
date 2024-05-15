@@ -1,10 +1,10 @@
 'use server';
 
 import RecentUrlDecryption from '@/app/features/decrypt/components/recent-url-decryption';
-import { fetchRecent3Links } from '@/requests/shorten';
+import prisma from '@/lib/config/db-config';
 
 export default async function RecentTop3URLs() {
-  const recentCryptedList = await fetchRecent3Links();
+  const recentCryptedList = await fetchRecentCryptedList();
   return (
     <section className={'w-full py-12 md:py-24 lg:py-32'}>
       <div className={'container px-4 md:px-6'}>
@@ -16,4 +16,15 @@ export default async function RecentTop3URLs() {
       </div>
     </section>
   );
+}
+
+async function fetchRecentCryptedList() {
+  const shortenUrls = await prisma.shortenLink.findMany({
+    take: 3,
+    orderBy: {
+      created: 'desc',
+    },
+  });
+
+  return shortenUrls;
 }
