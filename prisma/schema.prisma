@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ShortenLink {
+  id          Int      @id @default(autoincrement())
+  hash        String
+  originalUrl String
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+}

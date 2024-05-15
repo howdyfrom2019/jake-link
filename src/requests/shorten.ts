@@ -1,9 +1,10 @@
-import { useMutation } from '@tanstack/react-query';
+import { ShortenLink } from '@prisma/client';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 export const encryptComplexUrl = async (body: Shorten.CreatePayload) => {
   try {
-    const { data } = await axios.post<Shorten.Create>(
+    const { data } = await axios.post<ShortenLink>(
       '/api/shorten-url/encode',
       body,
     );
@@ -20,8 +21,26 @@ export const encryptComplexUrl = async (body: Shorten.CreatePayload) => {
   }
 };
 
+export const fetchRedirectLink = async (compressed: string) => {
+  try {
+    const { data } = await axios.get<ShortenLink>(
+      `/api/shorten-url/${compressed}`,
+    );
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw {
+        status: error.response?.status,
+        error: error.response?.data.error,
+      };
+    }
+
+    throw error;
+  }
+};
+
 export const useEncodeShortenUrl = (
-  onSuccess?: (data: Shorten.Create) => void,
+  onSuccess?: (data: ShortenLink) => void,
   onError?: (error: NextError) => void,
 ) => {
   const { mutate, mutateAsync } = useMutation({
@@ -33,5 +52,19 @@ export const useEncodeShortenUrl = (
   return {
     mutate,
     mutateAsync,
+  };
+};
+
+export const useShortenLink = (compressed: string) => {
+  const { data, isLoading, error } = useQuery({
+    queryFn: () => fetchRedirectLink(compressed),
+    queryKey: ['shorten', 'link', compressed],
+    enabled: Boolean(compressed?.trim()),
+  });
+
+  return {
+    data,
+    isLoading,
+    error,
   };
 };

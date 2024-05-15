@@ -1,10 +1,10 @@
 import Providers from '@/app/providers';
+import '@/lib/config/envConfig';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 import './globals.css';
-import '@/lib/config/envConfig';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -15,16 +15,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  darkmode,
 }: Readonly<{
   children: ReactNode;
+  darkmode: ReactNode;
 }>) {
   return (
     <html lang={'en'}>
       <Providers>
         <body
-          className={cn([inter.variable, 'font-inter text-base font-normal'])}
+          className={cn([
+            inter.variable,
+            'relative font-inter text-base font-normal',
+          ])}
         >
           {children}
+          {darkmode}
         </body>
       </Providers>
     </html>

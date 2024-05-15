@@ -17,6 +17,7 @@
     "no-useless-catch": "off",
     "no-unused-vars": "warn",
     "no-undef": "off",
-    "no-redeclare": "warn"
+    "no-redeclare": "warn",
+    "react/no-unescaped-entities": "off"
   }
 }

@@ -34,7 +34,7 @@ const EncryptForm = () => {
       navigator.clipboard
         .writeText(`${window.location}${data.hash}`)
         .then(() => {
-          toast('링크가 복사되었습니다!');
+          toast.success('링크가 복사되었습니다!');
         });
     },
     (error) => console.error(error),
@@ -47,7 +47,7 @@ const EncryptForm = () => {
   return (
     <Form {...form}>
       <form
-        className={"flex flex-col items-stretch gap-2 space-x-2"}
+        className={'flex flex-col items-stretch gap-2 space-x-2'}
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
