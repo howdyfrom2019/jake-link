@@ -1,10 +1,14 @@
-import prisma from '@/lib/config/dbConfig';
+import prisma from '@/lib/config/db-config';
 import { NextRequest, NextResponse } from 'next/server';
 
+type Params = {
+  compressed: string;
+};
+
 export const dynamic = 'force-dynamic';
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, context: { params: Params }) {
   try {
-    const compressed = request.nextUrl.pathname.split('/')[3];
+    const compressed = context.params.compressed;
     if (!compressed) {
       return NextResponse.json(
         { error: '올바르지 않은 요청입니다.' },

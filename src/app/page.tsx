@@ -1,9 +1,7 @@
-import EncryptForm from '@/app/features/encrypt/components/EncryptForm';
-import { ModeToggle } from '@/components/custom/mode-toggle';
-import { Card, CardContent } from '@/components/ui/card';
-import Link from 'next/link';
+import RecentTop3URLs from '@/app/features/decrypt/components/recent-top-3-urls';
+import EncryptForm from '@/app/features/encrypt/components/encrypt-form';
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <main
@@ -36,80 +34,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <section className={'w-full py-12 md:py-24 lg:py-32'}>
-        <div className={'container px-4 md:px-6'}>
-          <div
-            className={'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'}
-          >
-            <Card>
-              <CardContent
-                className={'flex flex-col items-start space-y-2 pt-6'}
-              >
-                <div
-                  className={
-                    'rounded-md bg-gray-900 px-3 py-1 text-sm font-medium text-gray-50'
-                  }
-                >
-                  Shortened
-                </div>
-                <h3 className={'text-lg font-semibold'}>
-                  <Link className={'hover:underline'} href={'#'}>
-                    https://example.com/abc123
-                  </Link>
-                </h3>
-                <p className={'line-clamp-2 text-gray-500 dark:text-gray-400'}>
-                  This is a sample shortened link that demonstrates the power of
-                  our link shortening tool.
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent
-                className={'flex flex-col items-start space-y-2 pt-6'}
-              >
-                <div
-                  className={
-                    'rounded-md bg-gray-900 px-3 py-1 text-sm font-medium text-gray-50'
-                  }
-                >
-                  Shortened
-                </div>
-                <h3 className={'text-lg font-semibold'}>
-                  <Link className={'hover:underline'} href={'#'}>
-                    https://example.com/xyz456
-                  </Link>
-                </h3>
-                <p className={'line-clamp-2 text-gray-500 dark:text-gray-400'}>
-                  This is another sample shortened link that demonstrates the
-                  power of our link shortening tool.
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent
-                className={'flex flex-col items-start space-y-2 pt-6'}
-              >
-                <div
-                  className={
-                    'rounded-md bg-gray-900 px-3 py-1 text-sm font-medium text-gray-50'
-                  }
-                >
-                  Shortened
-                </div>
-                <h3 className={'text-lg font-semibold'}>
-                  <Link className={'hover:underline'} href={'#'}>
-                    https://example.com/def789
-                  </Link>
-                </h3>
-                <p className={'line-clamp-2 text-gray-500 dark:text-gray-400'}>
-                  This is a third sample shortened link that demonstrates the
-                  power of our link shortening tool.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+      <RecentTop3URLs />
     </>
   );
 }

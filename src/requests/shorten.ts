@@ -1,10 +1,11 @@
+import jakeLinkService from '@/lib/config/axios-config';
 import { ShortenLink } from '@prisma/client';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 export const encryptComplexUrl = async (body: Shorten.CreatePayload) => {
   try {
-    const { data } = await axios.post<ShortenLink>(
+    const { data } = await jakeLinkService.post<ShortenLink>(
       '/api/shorten-url/encode',
       body,
     );
@@ -23,11 +24,30 @@ export const encryptComplexUrl = async (body: Shorten.CreatePayload) => {
 
 export const fetchRedirectLink = async (compressed: string) => {
   try {
-    const { data } = await axios.get<ShortenLink>(
-      `/api/shorten-url/${compressed}`,
+    const { data } = await jakeLinkService.get<ShortenLink>(
+      `/api/shorten-url/compressed/${compressed}`,
     );
     return data;
   } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw {
+        status: error.response?.status,
+        error: error.response?.data.error,
+      };
+    }
+
+    throw error;
+  }
+};
+
+export const fetchRecent3Links = async () => {
+  try {
+    const { data } = await jakeLinkService.get<ShortenLink[]>(
+      `/api/shorten-url/recent-list`,
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
     if (axios.isAxiosError(error)) {
       throw {
         status: error.response?.status,

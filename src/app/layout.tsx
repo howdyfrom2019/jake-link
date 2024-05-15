@@ -1,5 +1,5 @@
 import Providers from '@/app/providers';
-import '@/lib/config/envConfig';
+import '@/lib/config/env-config';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -36,3 +36,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export const revalidate = 3600;

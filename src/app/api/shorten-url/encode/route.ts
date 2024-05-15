@@ -1,4 +1,4 @@
-import prisma from '@/lib/config/dbConfig';
+import prisma from '@/lib/config/db-config';
 import crypto from 'crypto-js';
 import { NextRequest, NextResponse } from 'next/server';
 
