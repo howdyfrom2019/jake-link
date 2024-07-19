@@ -8,15 +8,14 @@ export default async function RecentUrlDecryption({
 }: {
   shortenLink: ShortenLink;
 }) {
-  const { title, description, image } = await fetchWebsiteMetadata(
-    shortenLink.originalUrl,
-  );
+  const metadata = await fetchWebsiteMetadata(shortenLink.originalUrl);
+
   return (
     <Card>
       <CardContent className={'flex flex-col items-start space-y-2 pt-6'}>
-        {image ? (
+        {metadata?.image ? (
           <img
-            src={image}
+            src={metadata.image}
             alt={'external-img'}
             width={48}
             height={48}
@@ -33,11 +32,11 @@ export default async function RecentUrlDecryption({
         )}
         <h3 className={'text-lg font-semibold'}>
           <Link className={'hover:underline'} href={`/${shortenLink.hash}`}>
-            {title}
+            {metadata?.title ?? 'Secured Link'}
           </Link>
         </h3>
         <p className={'line-clamp-2 text-gray-500 dark:text-gray-400'}>
-          {description}
+          {metadata?.description ?? 'Nothing can be found'}
         </p>
       </CardContent>
     </Card>
@@ -45,14 +44,18 @@ export default async function RecentUrlDecryption({
 }
 
 async function fetchWebsiteMetadata(url: string) {
-  const metadata = await urlMetadata(url);
-  const title = metadata.title as string;
-  const description = metadata.description as string;
-  const image = metadata['og:image'] as string;
+  try {
+    const metadata = await urlMetadata(url);
+    const title = metadata.title as string;
+    const description = metadata.description as string;
+    const image = metadata['og:image'] as string;
 
-  return {
-    title,
-    description,
-    image: image ? image : null,
-  };
+    return {
+      title,
+      description,
+      image: image ? image : null,
+    };
+  } catch (error) {
+    console.log(error);
+  }
 }

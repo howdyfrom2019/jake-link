@@ -1,7 +1,7 @@
 import RecentTop3URLs from '@/app/features/decrypt/components/recent-top-3-urls';
 import EncryptForm from '@/app/features/encrypt/components/encrypt-form';
 
-export default async function Home() {
+export default function Home() {
   return (
     <>
       <main
